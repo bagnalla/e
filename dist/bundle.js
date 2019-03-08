@@ -22,23 +22,6 @@ function init() {
     let canvas = document.getElementById("canvas");
     puddi = new Puddi(canvas);
 
-    // // Create and initialize triangle.
-    // triangle = new Triangle(puddi, null);
-    // triangle.setScale(100.0);
-    // triangle.setPosition(new Vector(canvas.width/2.0, canvas.height/2.0));
-    
-    // // Give the triangle some special behavior.
-    // triangle.setUpdate(function(ms_elapsed) {
-    // 	let s_elapsed = ms_elapsed / 1000;
-    // 	let rad_per_s = 1;
-    // 	this.rotate(rad_per_s * s_elapsed);
-    // })
-
-    // // Give the triangle some children.
-    // mkSquare(puddi, triangle, triangle.getP1(), 0.2);
-    // mkSquare(puddi, triangle, triangle.getP2(), 0.2);
-    // mkSquare(puddi, triangle, triangle.getP3(), 0.2);
-
     // // Register some mouse event handlers
     // canvas.addEventListener('mousedown', function(evt) {
     // 	isDragging = true;
@@ -55,46 +38,35 @@ function init() {
     // canvas.addEventListener('mousewheel', handleMouseWheel, false);
     // canvas.addEventListener('DOMMouseScroll', handleMouseWheel, false);
 
+    let size = 100;
+
     let container = new PuddiObject(puddi, null);
-    container.setPosition(new Vector(canvas.width/2.0, canvas.height/2.0));
+    // container.setPosition(new Vector(canvas.width/2.0 + size/4,
+    // 				     canvas.height/2.0 + size/4));
+    container.setPosition(new Vector(canvas.width/2.0,
+				     canvas.height/2.0));
 
     let sq = new Square(puddi, container)
-    sq.setScaleX(20);
-    sq.setScaleY(100);
+    sq.setScaleX(size/5);
+    sq.setScaleY(size);
 
     sq = new Square(puddi, container)
-    sq.setScaleY(20);
-    sq.setScaleX(100);
+    sq.setScaleX(size);
+    sq.setScaleY(size/5);
 
     let time_counter = 0.0;
+    let rad_per_s = 3.0;
+    let scale_speed = 3.0;
     container.setUpdate(function(ms_elapsed) {
     	let s_elapsed = ms_elapsed / 1000;
-    	let rad_per_s = 2.5;
     	this.rotate(rad_per_s * s_elapsed);
-
-	let scale_speed = 3.0;
-	this.setScale(Math.sin(scale_speed * time_counter));
+	this.setScale(Math.max(0, Math.sin(scale_speed * time_counter)));
 	time_counter += s_elapsed;
     })
 
     // Start the update/draw loop.
     puddi.run();
 }
-
-// function mkSquare(puddi, triangle, pos, scale) {
-//     let square = new Square(puddi, triangle);
-//     square.setPosition(pos);
-//     square.setScale(scale);
-    
-//     // Give the square some special behavior.
-//     square.setUpdate(function(ms_elapsed) {
-// 	let s_elapsed = ms_elapsed / 1000;
-// 	let rad_per_s = 10;
-// 	this.rotate(rad_per_s * s_elapsed);
-//     })
-
-//     return square;
-// }
 
 // compute mouse pos relative to canvas given event object
 function getMousePos(canvas, evt) {
@@ -1868,9 +1840,9 @@ Square.prototype.constructor = Square;
 
 Square.prototype._drawSelf = function(ctx) {
     ctx.fillStyle = this._color;
-    ctx.fillRect(-1/2, -1/2, 1, 1);
+    ctx.fillRect(-1/2.0, -1/2.0, 1, 1);
     ctx.strokeStyle = '#666666';
-    ctx.strokeRect(-1/2, -1/2, 1, 1);
+    ctx.strokeRect(-1/2.0, -1/2.0, 1, 1);
 }
 
 module.exports = Square;

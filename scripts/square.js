@@ -14,9 +14,9 @@ Square.prototype.constructor = Square;
 
 Square.prototype._drawSelf = function(ctx) {
     ctx.fillStyle = this._color;
-    ctx.fillRect(-1/2, -1/2, 1, 1);
+    ctx.fillRect(-1/2.0, -1/2.0, 1, 1);
     ctx.strokeStyle = '#666666';
-    ctx.strokeRect(-1/2, -1/2, 1, 1);
+    ctx.strokeRect(-1/2.0, -1/2.0, 1, 1);
 }
 
 module.exports = Square;
